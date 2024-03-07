@@ -6,8 +6,8 @@ import GameBoard from "./Tablero";
 
 export default function PantallaPrincipal() {
   const [vista, setVista] = useState('inicio');
+  
   return vista === 'inicio' ? (
-
     <View style={styles.container1}>
       <ImageBackground source={require("../assets/tetris2.gif")} style={{ height: "100%" }}>
         <View style={styles.container2}>

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Alert, TouchableOpacity, ImageBackground } from
 import { Shapes, getRandomShape } from './Shapes';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-
+import { Audio } from 'expo-av';
 
 const filas = 20;
 const columnas = 10;
@@ -122,6 +122,32 @@ const GameBoard = () => {
     const newInicio = (currentPiece.inicio + 1) % currentPiece.shapes.length;
     setCurrentPiece({ ...currentPiece, inicio: newInicio });
   };
+
+  useEffect(() => {
+    // Crear una instancia de Audio y cargar el archivo de audio
+    const backgroundSound = new Audio.Sound();
+
+    const loadAudio = async () => {
+      try {
+        await backgroundSound.loadAsync(require('../assets/music/tetris.mp3'));
+        // Reproducir el audio en bucle (loop)
+        await backgroundSound.setIsLoopingAsync(true);
+        // Iniciar la reproducción del audio
+        await backgroundSound.playAsync();
+      } catch (error) {
+        console.error('Error al cargar el audio', error);
+      }
+    };
+
+    // Llamar a la función para cargar y reproducir el audio
+    loadAudio();
+
+    // Detener la reproducción cuando el componente se desmonte
+    return () => {
+      backgroundSound.stopAsync();
+      backgroundSound.unloadAsync();
+    };
+  }, []); 
 
   
   return (
